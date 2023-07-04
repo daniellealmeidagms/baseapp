@@ -1,0 +1,192 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+void main() {
+  runApp(const App());
+}
+
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'BaseApp',
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.indigo,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const Home(),
+    );
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  // Insira aqui as variáveis de estado
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _textcontroller = TextEditingController();
+  final TextEditingController _datecontroller = TextEditingController();
+  final TextEditingController _timecontroller = TextEditingController();
+  final TextEditingController _slidercontroller = TextEditingController();
+  final TextEditingController _toggleonecontroller = TextEditingController();
+  final TextEditingController _togglemulticontroller = TextEditingController();
+  final TextEditingController _dropcontroller = TextEditingController();
+
+  final List<Widget> fruits = <Widget>[
+    const Text('Apple'),
+    const Text('Banana'),
+    const Text('Orange')
+  ];
+  final List<bool> _selectedFruits = <bool>[true, false, false];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Cadastro de Música"),
+        backgroundColor: Colors.indigo,
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(16),
+        child: Center(
+            child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(children: [
+              DropdownButton(
+                  value: "Canada",
+                  onChanged: (value) {
+                    setState(() {
+                      _dropcontroller.text = value!;
+                    });
+                  },
+                  items: [
+                    DropdownMenuItem(child: Text("USA"), value: "USA"),
+                    DropdownMenuItem(child: Text("Canada"), value: "Canada"),
+                    DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
+                    DropdownMenuItem(child: Text("England"), value: "England"),
+                  ]),
+
+              ToggleButtons(
+                onPressed: (int index) {
+                  setState(() {
+                    for (int i = 0; i < _selectedFruits.length; i++) {
+                      _selectedFruits[i] = i == index;
+                    }
+                  });
+                },
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                constraints: const BoxConstraints(
+                  minHeight: 40.0,
+                  minWidth: 80.0,
+                ),
+                isSelected: _selectedFruits,
+                children: fruits,
+              ),
+
+              // Título
+              TextFormField(
+                controller: _textcontroller,
+                decoration: const InputDecoration(
+                  labelText: "Text field",
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.abc),
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Campo obrigatório";
+                  }
+                },
+              ),
+
+              // // Duração
+              // TextFormField(
+              //   controller: _duracaocontroller,
+              //   decoration: const InputDecoration(
+              //     labelText: "Duração: ",
+              //   ),
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return "Campo obrigatório";
+              //     }
+              //   },
+              // ),
+
+              // // Gênero
+              // TextFormField(
+              //   controller: _generocontroller,
+              //   decoration: const InputDecoration(
+              //     labelText: "Gênero: ",
+              //   ),
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return "Campo obrigatório";
+              //     }
+              //   },
+              // ),
+
+              // // Artista
+              // TextFormField(
+              //   controller: _artistacontroller,
+              //   decoration: const InputDecoration(
+              //     labelText: "Artista: ",
+              //   ),
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return "Campo obrigatório";
+              //     }
+              //   },
+              // ),
+
+              // // Álbum
+              // TextFormField(
+              //   controller: _albumcontroller,
+              //   decoration: const InputDecoration(
+              //     labelText: "Álbum: ",
+              //   ),
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return "Campo obrigatório";
+              //     }
+              //   },
+              // ),
+
+              // // Ano Lançamento
+              // TextFormField(
+              //   controller: _anocontroller,
+              //   keyboardType: TextInputType.number,
+              //   decoration: const InputDecoration(
+              //     labelText: "Ano de Lançamento: ",
+              //   ),
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return "Campo obrigatório";
+              //     }
+              //   },
+              // ),
+
+              ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Fluttertoast.showToast(
+                          msg: _dropcontroller.text,
+                          gravity: ToastGravity.CENTER_LEFT,
+                          backgroundColor: Colors.green);
+                    }
+                  },
+                  child: const Text("Cadastrar")),
+            ]),
+          ),
+        )),
+      ),
+    );
+  }
+}
