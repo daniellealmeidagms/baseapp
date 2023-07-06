@@ -4,11 +4,6 @@ final ThemeData customTheme = ThemeData(
   primarySwatch: generateMaterialColor(Palette.primary)
 );
 
-class Palette {
-  // Your hexadecimal color code
-  static const Color primary = Color(0xFF015A13);
-}
-
 MaterialColor generateMaterialColor(Color color) {
   return MaterialColor(color.value, {
     50: tintColor(color, 0.9),
@@ -41,3 +36,8 @@ Color shadeColor(Color color, double factor) => Color.fromRGBO(
     shadeValue(color.green, factor),
     shadeValue(color.blue, factor),
     1);
+
+class Palette {
+  // Your hexadecimal color code
+  static const Color primary = Color(0xFF015A13);
+}
